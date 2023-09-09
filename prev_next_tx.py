@@ -1,5 +1,4 @@
 import requests
-import json
 import pandas as pd
 
 
@@ -13,9 +12,21 @@ data = []
 input_data = []
 input_count = 0
 
+flag = 0
+
+no_input = 0
+no_output = 0
+
 for line in lines:
-    stripped_line = line.strip()
     
+    if flag == 0:
+        no_input, no_output = map(int, line.strip().split())
+        flag = 1
+        continue
+
+    stripped_line = line.strip()
+
+
     if stripped_line == "end of input":
         
         if input_data:
@@ -23,12 +34,13 @@ for line in lines:
             df = pd.DataFrame(input_data, columns=["Transaction ID", "Inputs", "Outputs"])
             #df.to_csv(input_filename, index=False)
             table_format = df.to_string(index=False, justify='center')
-            with open("input_filename.csv", "w") as file:
+            with open(input_filename, "w") as file:
                 file.write(table_format)
         
         
         input_data = []
         input_count += 1
+
     else:
         try:
             response = requests.get("https://blockchain.info/rawtx/" + stripped_line)
