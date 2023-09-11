@@ -20,7 +20,7 @@ no_output = 0
 for line in lines:
     
     if flag == 0:
-        no_input, no_output = map(int, line.strip().split())
+        no_input = line.split()
         flag = 1
         continue
 
@@ -32,7 +32,6 @@ for line in lines:
         if input_data:
             input_filename = f'input_{input_count}.csv'
             df = pd.DataFrame(input_data, columns=["Transaction ID", "Inputs", "Outputs"])
-            #df.to_csv(input_filename, index=False)
             table_format = df.to_string(index=False, justify='center')
             with open(input_filename, "w") as file:
                 file.write(table_format)
@@ -48,7 +47,7 @@ for line in lines:
             
             if response.status_code == 404:
                 print(f"Transaction {stripped_line} not found.")
-                continue  # Skip to the next transaction
+                continue  
 
             response.raise_for_status() 
             response_json = response.json()
