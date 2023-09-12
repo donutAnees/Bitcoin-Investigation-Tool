@@ -1,7 +1,7 @@
 import requests
 
 def get_transaction_info(transaction_id):
-    response = requests.get("https://blockchain.info/rawtx/" + transaction_id )
+    response = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" + transaction_id + "?token=cd380b7fda6a44909bff4645ec8b0448")
     response_json = response.json()
 
     no_of_inputs = response_json["vin_sz"]
@@ -17,26 +17,24 @@ def get_transaction_info(transaction_id):
 
         in_field = response_json.get("inputs",[])
         cur_input = in_field[i]
-        prev_output = cur_input.get("prev_out", {})
-        user_addr = prev_output.get("addr")
 
-        input_addresses.append(user_addr)
+        input_addresses.append(cur_input)
 
     for i in range (no_of_outputs):
 
-        out_field = response_json.get("out", [])
+        out_field = response_json.get("outputs", [])
         cur_output = out_field[i]
-        output_addr = cur_output.get("addr")
 
-        output_addresses.append(output_addr)
+        output_addresses.append(cur_output)
 
     with open(input_addr_file , "w+") as file:
         for addr in input_addresses:
-            file.write(addr + "\n")
+            file.write(str(addr) + "\n")
     file.close()
 
     with open(output_addr_file , "w+") as file:
         for addr in output_addresses:
-            file.write(addr + "\n")
+            file.write(str(addr) + "\n")
     file.close()
 
+get_transaction_info("f854aebae95150b379cc1187d848d58225f3c4157fe992bcd166f58bd5063449")
