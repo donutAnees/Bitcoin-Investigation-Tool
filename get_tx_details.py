@@ -39,3 +39,4 @@ def get_transaction_info(transaction_id):
         for addr in output_addresses:
             file.write(addr + "\n")
     file.close()
+
