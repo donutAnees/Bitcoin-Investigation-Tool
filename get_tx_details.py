@@ -59,7 +59,7 @@ def get_transaction_info(transaction_id):
     }
 
     df = pd.DataFrame(input_dict)
-    df.to_csv(input_addr_file)
+    df.to_csv(input_addr_file,index=False)
     
     value = []
     script = []
@@ -83,7 +83,7 @@ def get_transaction_info(transaction_id):
     }
 
     df = pd.DataFrame(output_dict)
-    df.to_csv(output_addr_file)
+    df.to_csv(output_addr_file,index=False)
 
 
 get_transaction_info("f854aebae95150b379cc1187d848d58225f3c4157fe992bcd166f58bd5063449")
