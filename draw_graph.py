@@ -3,13 +3,11 @@ import matplotlib.pyplot as plt
 
 DG = nx.DiGraph()
 
-def create_node(parent_tx,child_tx):
+def create_node(parent_tx,child_tx,graph):
 
     if parent_tx not in DG:
-        DG.add_node(parent_tx)
+        graph.add_node(parent_tx)
     if child_tx not in DG:
-        DG.add_node(child_tx)
+        graph.add_node(child_tx)
 
-    DG.add_edge(parent_tx,child_tx)
-
-    nx.spring_layout(DG)
+    graph.add_edge(parent_tx,child_tx)

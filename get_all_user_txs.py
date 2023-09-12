@@ -2,7 +2,7 @@ import requests
 
 def get_all_transaction(user_hash):
 
-    user_info_response = requests.get("https://api.blockcypher.com/v1/btc/main/addrs/" + user_hash)
+    user_info_response = requests.get("https://api.blockcypher.com/v1/btc/main/addrs/" + user_hash + "?token=cd380b7fda6a44909bff4645ec8b0448")
 
     user_info_json = user_info_response.json()
 
