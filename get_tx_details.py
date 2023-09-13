@@ -14,6 +14,15 @@ def get_transaction_info(transaction_id):
     input_addresses = []
     output_addresses = []
 
+    next_output = False
+
+    if("next_outputs" in response_json): 
+        next_output = True
+
+    if(next_output == True):
+         response = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" + transaction_id + "?token=cd380b7fda6a44909bff4645ec8b0448&limit="+str(no_of_outputs))
+         response_json = response.json()
+         
     for i in range (no_of_inputs):
 
         in_field = response_json.get("inputs",[])
@@ -67,10 +76,16 @@ def get_transaction_info(transaction_id):
     addresses = []
     script_type = []
 
+    count = 0
     for item in output_addresses:
+        print(count)
+        count = count + 1
         value.append(item['value'])
         script.append(item['script'])
-        spent_by.append(item['spent_by'])
+        if('spent_by' not in item):
+            spent_by.append(None)
+        else:
+            spent_by.append(item['spent_by'])
         addresses.append(item['addresses'])
         script_type.append(item['script_type'])
 
@@ -86,4 +101,4 @@ def get_transaction_info(transaction_id):
     df.to_csv(output_addr_file,index=False)
 
 
-get_transaction_info("f854aebae95150b379cc1187d848d58225f3c4157fe992bcd166f58bd5063449")
+# get_transaction_info("f854aebae95150b379cc1187d848d58225f3c4157fe992bcd166f58bd5063449")
