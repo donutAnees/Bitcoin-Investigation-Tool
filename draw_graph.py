@@ -21,7 +21,6 @@ def draw_edges(graph, tx_id, direction):
                 break
         else:
             graph.add_node(node)
-            print(node)
             get_tx_details.get_transaction_info(node)
             if direction == 'input':
                 graph.add_edge(node, tx_id)

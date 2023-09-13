@@ -14,13 +14,13 @@ def get_transaction_info(transaction_id):
     input_addresses = []
     output_addresses = []
 
-    next_output = False
+    next_io = False
 
-    if("next_outputs" in response_json): 
-        next_output = True
+    if("next_outputs" in response_json or "next_inputs" in response_json): 
+        next_io = True
 
-    if(next_output == True):
-         response = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" + transaction_id + "?token=cd380b7fda6a44909bff4645ec8b0448&limit="+str(no_of_outputs))
+    if(next_io == True):
+         response = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" + transaction_id + "?token=cd380b7fda6a44909bff4645ec8b0448&limit="+str(max(no_of_inputs, no_of_outputs)))
          response_json = response.json()
          
     for i in range (no_of_inputs):
@@ -47,7 +47,10 @@ def get_transaction_info(transaction_id):
     age = []
 
     for i in input_addresses:
-        prev_hash.append(i["prev_hash"])
+        if('prev_hash' not in i):
+            prev_hash.append(None)
+        else:
+            prev_hash.append(i["prev_hash"])
         output_index.append(i["output_index"])
         script.append(i["script"])
         output_value.append(i["output_value"])
@@ -76,10 +79,10 @@ def get_transaction_info(transaction_id):
     addresses = []
     script_type = []
 
-    count = 0
+    # count = 0
     for item in output_addresses:
-        print(count)
-        count = count + 1
+        # print(count)
+        # count = count + 1
         value.append(item['value'])
         script.append(item['script'])
         if('spent_by' not in item):
