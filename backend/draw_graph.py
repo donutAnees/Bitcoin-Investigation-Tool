@@ -1,18 +1,14 @@
-from pyvis.network import Network
-from flask import Flask, request
 import pandas as pd
-
 import get_tx_details
 
-# app = Flask(__name__)
 
 def draw_edges(graph, tx_id, direction):
     no_of_nodes = len(graph.get_nodes())
     if direction == 'input':
-        df = pd.read_csv(tx_id+'_input_addr.csv')
+        df = pd.read_csv("./transaction_folder/"+tx_id+'_input_addr.csv')
         value = 'prev_hash'
     else:
-        df = pd.read_csv(tx_id+'_output_addr.csv')
+        df = pd.read_csv("./transaction_folder/"+tx_id+'_output_addr.csv')
         value = 'spent_by'
     for i in range(len(df.index)):
         node = df[value][i]
@@ -27,18 +23,3 @@ def draw_edges(graph, tx_id, direction):
             else:
                 graph.add_edge(tx_id, node)
 
-# @app.route('/',methods=['POST'])
-# def click_node():
-#     data = request.json
-#     node_id = data[node_id]
-#     draw_edges(graph, tx_id, node_id, direction='input')
-#     draw_edges(graph,tx_id, node_id, direction='output')
-
-# if __name__ == '__main__':
-#     app.run()
-
-# custom_js_code = """
-# function handleNodeClick(nodeId){
-
-# }
-# """

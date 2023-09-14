@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 
 def get_transaction_info(transaction_id):
-    response = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" + transaction_id + "?token=cd380b7fda6a44909bff4645ec8b0448")
+    response = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" + str(transaction_id) + "?token=cd380b7fda6a44909bff4645ec8b0448")
     response_json = response.json()
 
     no_of_inputs = response_json["vin_sz"]
@@ -71,7 +71,7 @@ def get_transaction_info(transaction_id):
     }
 
     df = pd.DataFrame(input_dict)
-    df.to_csv(input_addr_file,index=False)
+    df.to_csv("./transaction_folder/"+input_addr_file,index=False)
     
     value = []
     script = []
@@ -79,10 +79,7 @@ def get_transaction_info(transaction_id):
     addresses = []
     script_type = []
 
-    # count = 0
     for item in output_addresses:
-        # print(count)
-        # count = count + 1
         value.append(item['value'])
         script.append(item['script'])
         if('spent_by' not in item):
@@ -101,7 +98,7 @@ def get_transaction_info(transaction_id):
     }
 
     df = pd.DataFrame(output_dict)
-    df.to_csv(output_addr_file,index=False)
+    df.to_csv("./transaction_folder/"+output_addr_file,index=False)
 
 
 # get_transaction_info("f854aebae95150b379cc1187d848d58225f3c4157fe992bcd166f58bd5063449")
