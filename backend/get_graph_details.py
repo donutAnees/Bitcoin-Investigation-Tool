@@ -1,12 +1,6 @@
 import pandas as pd
-import json
 
 import get_tx_details
-
-details_dict = {
-    'nodes' : [],
-    'edges' : []
-}
 
 def add_node(tx_id, details_dict, other=None):
     for node in details_dict['nodes']:
@@ -21,7 +15,7 @@ def add_node(tx_id, details_dict, other=None):
             details_dict['nodes'].append({'id':tx_id})
 
 def add_edge(tx_id1, tx_id2, details_dict):
-    details_dict['edges'].append({'from':tx_id1, 'to':tx_id2})
+    details_dict['edges'].append({'source':tx_id1, 'target':tx_id2})
 
 def get_graph_details(tx_id, details_dict):
 
@@ -60,8 +54,6 @@ def get_graph_details(tx_id, details_dict):
     
     return details_dict
 
-with open('graph_details.json','w') as f:
-    json.dump(get_graph_details('f854aebae95150b379cc1187d848d58225f3c4157fe992bcd166f58bd5063449', details_dict),f)
 
 
 

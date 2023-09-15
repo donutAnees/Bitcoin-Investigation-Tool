@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
-import { loader as transactionGraphLoader } from "./pages/transaction";
+import { loader as TransactionGraphLoader } from "./pages/transaction";
 import Root from "./pages/root";
-import Transaction from "./pages/transaction";
 import Home from "./pages/home";
+import Transaction from "./pages/transaction";
 
 function App() {
   const router = createBrowserRouter([
@@ -18,7 +18,7 @@ function App() {
         {
           path: `/transaction/:hash`,
           element: <Transaction/>,
-          loader: transactionGraphLoader,
+          loader: TransactionGraphLoader,
         },
       ],
     },
