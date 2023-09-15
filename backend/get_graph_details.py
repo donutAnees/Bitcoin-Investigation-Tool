@@ -18,15 +18,13 @@ def add_edge(tx_id1, tx_id2, details_dict):
     details_dict['edges'].append({'source':tx_id1, 'target':tx_id2})
 
 def get_graph_details(tx_id, details_dict):
-
-    add_node(tx_id, details_dict)
         
     get_tx_details.get_transaction_info(tx_id)
 
     inputs = pd.read_csv("./transaction_folder/"+tx_id+'_input_addr.csv')
     for i in range(len(inputs.index)):
         id = inputs['prev_hash'][i]
-        if id:
+        if not pd.isna(id):
             other = {
                 'in_output_index': int(inputs['output_index'][i]),
                 'in_script': inputs['script'][i], 
@@ -42,7 +40,7 @@ def get_graph_details(tx_id, details_dict):
     outputs = pd.read_csv("./transaction_folder/"+tx_id+'_output_addr.csv')
     for i in range(len(outputs.index)):
         id = outputs['spent_by'][i]
-        if id:
+        if not pd.isna(id):
             other = {
                 'out_value': int(outputs['value'][i]),
                 'out_script': outputs['script'][i],
@@ -53,10 +51,4 @@ def get_graph_details(tx_id, details_dict):
             add_edge(id, tx_id, details_dict)
     
     return details_dict
-
-
-
-
-
-        
 
