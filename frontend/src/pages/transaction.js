@@ -2,14 +2,15 @@ import { useLoaderData } from "react-router-dom";
 
 export default function Transaction() {
   const rawHTML = useLoaderData();
+
   return (
     <>
       {
         <iframe
           srcDoc={rawHTML}
           title="Graph"
-          width="1700px"
-          height="1000px" // Adjust the height as needed
+          width="1300px"
+          height="600px"
         ></iframe>
       }
     </>
