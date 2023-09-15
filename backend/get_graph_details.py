@@ -19,7 +19,7 @@ def add_edge(tx_id1, tx_id2, details_dict):
 
 def get_graph_details(tx_id, details_dict):
 
-    add_node(tx_id, details_dict)
+    # add_node(tx_id, details_dict)
         
     get_tx_details.get_transaction_info(tx_id)
 
