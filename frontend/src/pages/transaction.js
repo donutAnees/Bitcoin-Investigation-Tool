@@ -13,6 +13,8 @@ export default function Transaction() {
     links: backend_data.edges,
   });
 
+  console.log(data);
+
   useEffect(() => {
     const svg = d3
       .select(ref.current)
@@ -59,6 +61,9 @@ export default function Transaction() {
           nodes: data.nodes,
           links: data.edges,
         });
+      })
+      .on("mouseover", (nodeData) => {
+        console.log(nodeData.target.__data__.id);
       });
 
     simulation.on("tick", () => {
