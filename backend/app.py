@@ -26,7 +26,7 @@ CORS(app)
 @app.route('/transactionhash' , methods = ["GET"])
 def greet():
     hash = request.args.get("hash")
-    returnGraph(hash)
+    #returnGraph(hash)
     return render_template('graph.html')
 
 if __name__ == "__main__":
