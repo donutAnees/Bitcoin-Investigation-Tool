@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import datetime as dt
 
 def create_dataset(walletid, data_list, flag):
     with open("./wallets/"+walletid+".json","r") as walletfile:
@@ -13,11 +14,13 @@ def create_dataset(walletid, data_list, flag):
         vin_sz = 0
         vout_sz = 0
         count_rbf = 0
+        timestamps = list()
         
         if n==0:
             com_pref = None
             fee.append(0)
             lock_time.append(0)
+            timestamps_avg = None
 
         else:
             for tx in filedata["txs"]:
@@ -25,6 +28,7 @@ def create_dataset(walletid, data_list, flag):
                 pref.append(tx["preference"])
                 lock_time.append(tx["lock_time"])
                 fee.append(tx["fees"])
+                timestamps.append(dt.datetime.fromisoformat(tx["received"]).timestamp())
                 vin_sz += tx["vin_sz"]
                 vout_sz += tx["vout_sz"]
                 if tx["opt_in_rbf"]:
@@ -41,6 +45,12 @@ def create_dataset(walletid, data_list, flag):
             else:
                 com_pref = "high"
 
+            min_timestamp = min(timestamps)
+            timediff = 0
+            for ts in timestamps:
+                timediff += ts - min_timestamp
+            timestamps_avg = timediff//n
+                
         if flag == 1:
             status = "illegal"
         else:
@@ -59,17 +69,21 @@ def create_dataset(walletid, data_list, flag):
         data["avg_vin_sz"] = vin_sz//n
         data["avg_vout_sz"] = vout_sz//n
         data["rbf_count"] = count_rbf
-        data["avg_timestmp_interval"]
+        data["avg_timestmp_interval"] = timestamps_avg
         data["status"] = status
     
     data_list.append(data)
-    return data_list
 
 if __name__ == "__main__":
     data_list = list()
-    with open("./illegalwallets.txt", "r") as illegalfile:
+    
+    with open("./illegal wallets.txt", "r") as illegalfile:
         for walletid in illegalfile:
-            data_list = create_dataset(walletid, data_list, 1)
-
+            create_dataset(walletid, data_list, 1)
+    
+    # with open("./wallets.txt", "r") as unknownfile:
+    #     for walletid in unknownfile:
+    #         create_dataset(walletid, data_list, 0)
+    
     df = pd.DataFrame(data_list)
     df.to_csv("./walletsdataset.csv", index = False)
