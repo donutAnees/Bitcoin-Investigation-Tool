@@ -1,0 +1,2 @@
+{'tx_hash': 'ccd40d339b1e2ae87b6ec92727dc50225658d4c5c2abdca8c1569a041af6dfca', 'block_height': 663111, 'tx_input_n': -1, 'tx_output_n': 1, 'value': 6900, 'ref_balance': 6900, 'spent': False, 'confirmations': 157108, 'confirmed': '2020-12-26T23:13:37Z', 'double_spend': False}
+{'tx_hash': 'ccd40d339b1e2ae87b6ec92727dc50225658d4c5c2abdca8c1569a041af6dfca', 'block_height': 663111, 'tx_input_n': -1, 'tx_output_n': 1, 'value': 6900, 'ref_balance': 6900, 'spent': False, 'confirmations': 157108, 'confirmed': '2020-12-26T23:13:37Z', 'double_spend': False}
