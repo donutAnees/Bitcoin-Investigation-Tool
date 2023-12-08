@@ -24785,12 +24785,6 @@
             "next_inputs": "https://api.blockcypher.com/v1/btc/main/txs/37c80facec565d949721d5087558a8535953f540f93a924b4368f6bbb3a1fc4d?instart=20&outstart=0&limit=20"
         },
         {
-            "error": "Limits reached."
-        },
-        {
-            "error": "Limits reached."
-        },
-        {
             "block_hash": "00000000000000000006531e345e3885d2e8b3da254433e45a707452fac01ce7",
             "block_height": 770577,
             "block_index": 1703,
@@ -27022,24 +27016,6 @@
                 }
             ],
             "next_inputs": "https://api.blockcypher.com/v1/btc/main/txs/3ef504cf88b539acbe5994bc46824ebed277a3f377fd3363d3d16bababf426c7?instart=20&outstart=0&limit=20"
-        },
-        {
-            "error": "Limits reached."
-        },
-        {
-            "error": "Limits reached."
-        },
-        {
-            "error": "Limits reached."
-        },
-        {
-            "error": "Limits reached."
-        },
-        {
-            "error": "Limits reached."
-        },
-        {
-            "error": "Limits reached."
         },
         {
             "block_hash": "00000000000000000006b5b6944cca90c826e462d8899ed7e40b01ec84c2577d",
