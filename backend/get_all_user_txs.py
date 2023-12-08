@@ -3,7 +3,7 @@ import json
 
 def get_all_transaction(user_hash):
 
-    user_info_response = requests.get("https://api.blockcypher.com/v1/btc/main/addrs/" + user_hash)
+    user_info_response = requests.get("https://api.blockcypher.com/v1/btc/main/addrs/" + user_hash )
 
     user_info_json = user_info_response.json()
     user_txs = user_info_json.get("txrefs",[])
@@ -11,7 +11,7 @@ def get_all_transaction(user_hash):
     txs = []
 
     for tx in user_txs:
-        tx_detail = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" + tx["tx_hash"])
+        tx_detail = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" + tx["tx_hash"] )
         txs.append(tx_detail.json())
 
     data = {
@@ -28,12 +28,10 @@ def get_all_transaction(user_hash):
     }
 
     with open("./wallets/" + user_hash + ".json" , "w") as file:
-        # print(data)
         json.dump(data,file)
     file.close()
 
 if __name__ == "__main__":
-    # get_all_transaction("1FH4HU6xhQnCbzYosP2N5HAa5aPJd7XxYZ")
     with open("./illegal wallets.txt") as file:
         for wallet_id in file:
            get_all_transaction(wallet_id.strip())
