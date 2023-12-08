@@ -68,7 +68,7 @@ export default function Transaction() {
       .selectAll("circle")
       .data(nodes)
       .join("circle")
-      .attr("r", 3.5)
+      .attr("r", 5)
       .style("fill", "white")
       .on("click", async (nodeData) => {
         const clicked_node = nodeData.target.__data__.id;
