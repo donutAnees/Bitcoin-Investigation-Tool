@@ -27,12 +27,12 @@ def get_all_transaction(user_hash):
         "txs" : txs,
     }
 
-    with open("./wallets/" + user_hash + ".json" , "w") as file:
+    with open("./unknown_wallets/" + user_hash + ".json" , "w") as file:
         json.dump(data,file)
     file.close()
 
 if __name__ == "__main__":
-    with open("./illegal wallets.txt") as file:
+    with open("./unknown.txt") as file:
         for wallet_id in file:
            get_all_transaction(wallet_id.strip())
     file.close() 
