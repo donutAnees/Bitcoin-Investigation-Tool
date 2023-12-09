@@ -6,9 +6,11 @@ module.exports = {
       backgroundImage:{
         'dark-bg' : "url('/public/images/heroglowdark.jpg')",
         'light-bg' : "url('/public/images/heroglow.jpg')",
+        'icon-dark-bg' : "url('/public/images/titlecard.png')",
+        'icon-bg' : "url('/public/images/titlecardlight.png')"
       },
       colors:{
-        'bluish-black': '#0F172A',
+        'bluish-black': '#05070e',
       } , 
       animation: {
         'slide-in': 'slide-in 1.25s',
