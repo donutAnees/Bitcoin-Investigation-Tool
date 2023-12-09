@@ -3,7 +3,7 @@ import json
 import datetime as dt
 
 def create_dataset(walletid, data_list, flag):
-    with open("./wallets/"+walletid+".json","r") as walletfile:
+    with open("./wallets/"+walletid.strip()+".json","r") as walletfile:
         filedata = json.load(walletfile)
         print(filedata["address"])
         n = len(filedata["txs"])
@@ -81,9 +81,9 @@ if __name__ == "__main__":
         for walletid in illegalfile:
             create_dataset(walletid.strip(), data_list, 1)
     
-    # with open("./wallets.txt", "r") as unknownfile:
-    #     for walletid in unknownfile:
-    #         create_dataset(walletid, data_list, 0)
+    with open("./unknown_wallets.txt", "r") as unknownfile:
+        for walletid in unknownfile:
+            create_dataset(walletid, data_list, 0)
     
     df = pd.DataFrame(data_list)
     df.to_csv("./walletsdataset.csv", index = False)
