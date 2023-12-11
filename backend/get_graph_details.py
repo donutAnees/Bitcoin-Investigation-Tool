@@ -2,23 +2,28 @@ import pandas as pd
 
 import get_tx_details
 
+
 def add_node(tx_id, details_dict, other=None):
     for node in details_dict['nodes']:
-        if node['id']==tx_id:
+        if node['id'] == tx_id:
             break
     else:
         if other:
-            info = {'id':tx_id}
+            info = {'id': tx_id}
             info.update(other)
             details_dict['nodes'].append(info)
         else:
-            details_dict['nodes'].append({'id':tx_id})
+            details_dict['nodes'].append({'id': tx_id})
+
 
 def add_edge(tx_id1, tx_id2, details_dict):
-    details_dict['edges'].append({'source':tx_id1, 'target':tx_id2})
+    edge = {'source': tx_id1, 'target': tx_id2}
+    if(edge not in details_dict['edges']):
+        details_dict['edges'].append({'source': tx_id1, 'target': tx_id2})
+
 
 def get_graph_details(tx_id, details_dict):
-        
+
     get_tx_details.get_transaction_info(tx_id)
 
     inputs = pd.read_csv("./transaction_folder/"+tx_id+'_input_addr.csv')
@@ -27,15 +32,16 @@ def get_graph_details(tx_id, details_dict):
         if not pd.isna(id):
             other = {
                 'in_output_index': int(inputs['output_index'][i]),
-                'in_script': inputs['script'][i], 
-                'in_output_value': int(inputs['output_value'][i]), 
-                'in_sequence': int(inputs['sequence'][i]), 
+                'in_script': inputs['script'][i],
+                'in_output_value': int(inputs['output_value'][i]),
+                'in_sequence': int(inputs['sequence'][i]),
                 'in_addresses': inputs['addresses'][i],
-                'in_script_type': inputs['script_type'][i], 
+                'in_script_type': inputs['script_type'][i],
                 'in_age': int(inputs['age'][i])
             }
+            
             add_node(id, details_dict, other)
-            add_edge(id, tx_id, details_dict)
+            add_edge(tx_id, id, details_dict)
 
     outputs = pd.read_csv("./transaction_folder/"+tx_id+'_output_addr.csv')
     for i in range(len(outputs.index)):
@@ -49,6 +55,5 @@ def get_graph_details(tx_id, details_dict):
             }
             add_node(id, details_dict, other)
             add_edge(id, tx_id, details_dict)
-    
-    return details_dict
 
+    return details_dict

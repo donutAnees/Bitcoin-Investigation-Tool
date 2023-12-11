@@ -1,8 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import * as d3 from "d3";
-import styles from "./transaction.module.css";
 import { useEffect, useRef, useState } from "react";
-import { zoom, zoomIdentity } from "d3-zoom"; // Import d3-zoom
+import { zoom, zoomIdentity } from "d3-zoom";
 
 export default function Transaction() {
   const ref = useRef();
@@ -11,6 +10,7 @@ export default function Transaction() {
   const [data, setData] = useState({
     nodes: backend_data.nodes,
     links: backend_data.edges,
+    clicks: [],
   });
 
   const [hoveredNode, setHoveredNode] = useState(null);
@@ -54,6 +54,22 @@ export default function Transaction() {
         d.fy = null;
       });
 
+    const defs = svg.append("defs");
+
+    defs
+      .append("marker")
+      .attr("id", "markerStart")
+      .attr("viewBox", "0 -5 10 10")
+      .attr("refX", 35)
+      .attr("refY", -0, 7)
+      .attr("markerWidth", 6)
+      .attr("markerHeight", 6)
+      .attr("markerUnits", "userSpaceOnUse")
+      .attr("orient", "auto-end-start")
+      .append("path")
+      .attr("d", "M0,-5L10,0L0,5")
+      .attr("fill", "#999");
+
     const link = svg
       .append("g")
       .attr("stroke", "#999")
@@ -61,7 +77,8 @@ export default function Transaction() {
       .selectAll("line")
       .data(links)
       .join("line")
-      .attr("stroke-width", (d) => Math.sqrt(d.value));
+      .attr("stroke-width", (d) => Math.sqrt(d.value))
+      .attr("marker-start", "url(#markerStart)");
 
     const node = svg
       .append("g")
@@ -72,14 +89,35 @@ export default function Transaction() {
       .style("fill", "white")
       .on("click", async (nodeData) => {
         const clicked_node = nodeData.target.__data__.id;
-        const response = await fetch(
-          "http://127.0.0.1:5000/expand?id=" + clicked_node
-        );
-        const data = await response.json();
-        setData({
-          nodes: data.nodes,
-          links: data.edges,
-        });
+        const clicks = data.clicks.findIndex((node) => node === clicked_node);
+
+        if (clicks !== -1) {
+          const response = await fetch(
+            "http://127.0.0.1:5000/expand?id=" + clicked_node
+          );
+
+          const data = await response.json();
+
+          console.log(data)
+
+          setData((prev) => {
+            return {
+              nodes: data.nodes,
+              links: data.edges,
+              clicks: prev.clicks.filter((node) => node !== clicked_node),
+            };
+          });
+          
+        } else {
+          const clickedNodes = [...data.clicks, clicked_node];
+
+          setData((prev) => {
+            return {
+              ...prev,
+              clicks: clickedNodes,
+            };
+          });
+        }
       })
       .on("mouseover", (nodeData) => {
         const hover_node_data = nodeData.target.__data__;
@@ -115,11 +153,10 @@ export default function Transaction() {
   }, [data]);
 
   return (
-    <div className={styles.container}>
-      <svg ref={ref}></svg>
+    <div className="bg-bluish-black">
+      <svg ref={ref} className="w-screen h-screen"></svg>
       {hoveredNode && (
         <div
-          className={styles.hoveredNodeBox}
           style={{
             position: "absolute",
             fontSize: "0.75rem",
