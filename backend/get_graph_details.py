@@ -3,28 +3,28 @@ import pandas as pd
 import get_tx_details
 
 
-def add_node(tx_id, details_dict, other=None):
-    for node in details_dict['nodes']:
-        if node['id'] == tx_id:
-            break
-    else:
-        if other:
-            info = {'id': tx_id}
-            info.update(other)
-            details_dict['nodes'].append(info)
-        else:
-            details_dict['nodes'].append({'id': tx_id})
+def add_node(tx_id, details_dict, other):
+    nodes = []
+    node = {'id' : tx_id , 'title' : other}
+    if(tx_id not in details_dict['nodes']):
+        nodes.append(node)
+    return nodes
 
 
 def add_edge(tx_id1, tx_id2, details_dict):
+    edges = []
     edge = {'source': tx_id1, 'target': tx_id2}
     if(edge not in details_dict['edges']):
-        details_dict['edges'].append({'source': tx_id1, 'target': tx_id2})
+        edges.append({'source': tx_id1, 'target': tx_id2})
+    return edges
 
 
 def get_graph_details(tx_id, details_dict):
 
     get_tx_details.get_transaction_info(tx_id)
+
+    nodes = []
+    edges = []
 
     inputs = pd.read_csv("./transaction_folder/"+tx_id+'_input_addr.csv')
     for i in range(len(inputs.index)):
@@ -40,8 +40,8 @@ def get_graph_details(tx_id, details_dict):
                 'in_age': int(inputs['age'][i])
             }
             
-            add_node(id, details_dict, other)
-            add_edge(tx_id, id, details_dict)
+            nodes += add_node(id, details_dict, other)
+            edges += add_edge(id, tx_id ,details_dict)
 
     outputs = pd.read_csv("./transaction_folder/"+tx_id+'_output_addr.csv')
     for i in range(len(outputs.index)):
@@ -53,7 +53,7 @@ def get_graph_details(tx_id, details_dict):
                 'out_addresses': outputs['addresses'][i],
                 'out_script_type': outputs['script_type'][i]
             }
-            add_node(id, details_dict, other)
-            add_edge(id, tx_id, details_dict)
+            nodes += add_node(id, details_dict, other)
+            edges += add_edge(tx_id, id, details_dict)
 
-    return details_dict
+    return {'nodes' : nodes , 'edges' : edges} 

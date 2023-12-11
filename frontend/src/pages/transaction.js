@@ -1,181 +1,47 @@
 import { useLoaderData } from "react-router-dom";
-import * as d3 from "d3";
-import { useEffect, useRef, useState } from "react";
-import { zoom, zoomIdentity } from "d3-zoom";
+import { useRef, useEffect, useMemo } from "react";
+import { Network } from "vis-network";
+
+//Sigh i hate commenting, but here we go guys
 
 export default function Transaction() {
-  const ref = useRef();
-  const backend_data = useLoaderData();
+  const backendData = useLoaderData();
 
-  const [data, setData] = useState({
-    nodes: backend_data.nodes,
-    links: backend_data.edges,
-  });
+  //Made a ref to access the DOM Element
 
-  const [clicks, setClicks] = useState([]);
+  //each node has a title field which will be displayed when hovered, make sure the required vis-network.min.css file link is given in the public html
 
-  const [hoveredNode, setHoveredNode] = useState(null);
-  const [hoveredNodePosition, setHoveredNodePosition] = useState({
-    x: 0,
-    y: 0,
-  });
+  const visJsRef = useRef(null);
+  //adding hover interaction
+  const options = useMemo(() => {
+    return { interaction: { hover: true } };
+  }, []);
 
   useEffect(() => {
-    const svg = d3.select(ref.current).attr("viewBox", [-150, -150, 300, 300]);
+    const { nodes, edges } = backendData;
 
-    svg.selectAll("*").remove();
-
-    const nodes = data.nodes;
-    const links = data.links;
-
-    const simulation = d3
-      .forceSimulation(nodes)
-      .force(
-        "link",
-        d3.forceLink(links).id((d) => d.id)
-      )
-      .force("charge", d3.forceManyBody().strength(-80))
-      .force("x", d3.forceX())
-      .force("y", d3.forceY());
-
-    const drag = d3
-      .drag()
-      .on("start", (event, d) => {
-        if (!event.active) simulation.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
-      })
-      .on("drag", (event, d) => {
-        d.fx = event.x;
-        d.fy = event.y;
-      })
-      .on("end", (event, d) => {
-        if (!event.active) simulation.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
-      });
-
-    const defs = svg.append("defs");
-
-    defs
-      .append("marker")
-      .attr("id", "markerStart")
-      .attr("viewBox", "0 -5 10 10")
-      .attr("refX", 35)
-      .attr("refY", -0, 7)
-      .attr("markerWidth", 6)
-      .attr("markerHeight", 6)
-      .attr("markerUnits", "userSpaceOnUse")
-      .attr("orient", "auto-end-start")
-      .append("path")
-      .attr("d", "M0,-5L10,0L0,5")
-      .attr("fill", "#999");
-
-    const link = svg
-      .append("g")
-      .attr("stroke", "#999")
-      .attr("stroke-opacity", 0.4)
-      .selectAll("line")
-      .data(links)
-      .join("line")
-      .attr("stroke-width", (d) => Math.sqrt(d.value))
-      .attr("marker-start", "url(#markerStart)");
-
-    const node = svg
-      .append("g")
-      .selectAll("circle")
-      .data(nodes)
-      .join("circle")
-      .attr("r", 5)
-      .style("fill", (d) =>
-        clicks.includes(d.id) ? "#d0a5d6" : "#b9e089"
-      )
-      .on("click", async (nodeData) => {
-        const clicked_node = nodeData.target.__data__.id;
-        const click = clicks.findIndex((node) => node === clicked_node);
-
-        if (click !== -1) {
-          const response = await fetch(
-            "http://127.0.0.1:5000/expand?id=" + clicked_node
-          );
-
-          const data = await response.json();
-
-          setData({ nodes: data.nodes, links: data.edges });
-        } else {
-          setClicks((prevClicks) => [...prevClicks, clicked_node]);
-        }
-      })
-      .on("mouseover", (nodeData) => {
-        const hover_node_data = nodeData.target.__data__;
-        const X = nodeData.clientX;
-        const Y = nodeData.clientY;
-        setHoveredNode(hover_node_data);
-        setHoveredNodePosition({ x: X, y: Y });
-      })
-      .on("mouseout", () => {
-        setHoveredNode(null);
-        setHoveredNodePosition({ x: 0, y: 0 });
-      })
-      .call(drag);
-
-    simulation.on("tick", () => {
-      link
-        .attr("x1", (d) => d.source.x)
-        .attr("y1", (d) => d.source.y)
-        .attr("x2", (d) => d.target.x)
-        .attr("y2", (d) => d.target.y);
-
-      node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
-    });
-
-    const zoomBehavior = zoom()
-      .scaleExtent([0.1, 10])
-      .on("zoom", (event) => {
-        svg.selectAll("g").attr("transform", event.transform);
-      });
-
-    svg.call(zoomBehavior);
-    svg.call(zoomBehavior.transform, zoomIdentity);
+    const network =
+      visJsRef.current &&
+      new Network(visJsRef.current, { nodes, edges }, options);
+    network.on("selectNode", async (event) => {
+      //get selectedNode ID
+      const nodeID = event.nodes[0];
+      const response = await fetch("http://127.0.0.1:5000/expand?id=" + nodeID);
+      const newData = await response.json();
     
-  }, [data, clicks]);
+      newData.nodes.forEach(element => {
+        network.body.data.nodes.update({id : element.id , title : element.title});
+        console.log(element.title)
+      });
+      
+      newData.edges.forEach(element => {
+        network.body.data.edges.update({from : element.source , to: element.target, arrows: "middle"});
+      });
 
-  return (
-    <div className="bg-bluish-black">
-      <svg ref={ref} className="w-screen h-screen"></svg>
-      {hoveredNode && (
-        <div
-          style={{
-            position: "absolute",
-            fontSize: "0.75rem",
-            left: hoveredNodePosition.x + 10 + "px",
-            top: hoveredNodePosition.y + 10 + "px",
-            background: "rgba(255, 255, 255, 0.9)",
-            padding: "8px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
-          }}
-        >
-          <p>ID: {hoveredNode.id}</p>
-          {hoveredNode.out_addresses && (
-            <p>Out Addresses: {hoveredNode.out_addresses}</p>
-          )}
-          {hoveredNode.out_value && <p>Out Value: {hoveredNode.out_value}</p>}
-          {hoveredNode.in_addresses && (
-            <p>Addresses: {hoveredNode.in_addresses}</p>
-          )}
-          {hoveredNode.in_age && <p>In Age: {hoveredNode.in_age}</p>}
-          {hoveredNode.in_output_value && (
-            <p>Output Value: {hoveredNode.in_output_value}</p>
-          )}
-          {hoveredNode.in_sequence && (
-            <p>Sequence: {hoveredNode.in_sequence}</p>
-          )}
-        </div>
-      )}
-    </div>
-  );
+    });
+  }, [visJsRef, options, backendData]);
+
+  return <div className="w-screen h-screen bg-bluish-black" ref={visJsRef} />;
 }
 
 export async function loader({ request, params }) {

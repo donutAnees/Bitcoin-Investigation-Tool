@@ -15,14 +15,21 @@ CORS(app)
 @app.route('/transactionhash' , methods = ["GET"])
 def init():
     hash = request.args.get("hash")
-    get_graph_details.add_node(hash , details_dict)
+    details_dict['nodes'].append({'id':hash})
+    print(details_dict)
     return details_dict
 
 @app.route('/expand' , methods = ["GET"])
 def expand():
     node = request.args.get("id")
-    get_graph_details.get_graph_details(node , details_dict)
-    return details_dict
+    new_dict = get_graph_details.get_graph_details(node , details_dict)
+    for new_node in new_dict['nodes']:
+        details_dict['nodes'].append(new_node)
+    for new_edge in new_dict['edges']:
+        details_dict['edges'].append(new_edge)
+
+    print(new_dict)
+    return new_dict
 
 if __name__ == "__main__":
     app.run(debug=True)
