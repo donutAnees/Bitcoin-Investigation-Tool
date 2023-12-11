@@ -10,8 +10,9 @@ export default function Transaction() {
   const [data, setData] = useState({
     nodes: backend_data.nodes,
     links: backend_data.edges,
-    clicks: [],
   });
+
+  const [clicks, setClicks] = useState([]);
 
   const [hoveredNode, setHoveredNode] = useState(null);
   const [hoveredNodePosition, setHoveredNodePosition] = useState({
@@ -86,37 +87,23 @@ export default function Transaction() {
       .data(nodes)
       .join("circle")
       .attr("r", 5)
-      .style("fill", "white")
+      .style("fill", (d) =>
+        clicks.includes(d.id) ? "#d0a5d6" : "#b9e089"
+      )
       .on("click", async (nodeData) => {
         const clicked_node = nodeData.target.__data__.id;
-        const clicks = data.clicks.findIndex((node) => node === clicked_node);
+        const click = clicks.findIndex((node) => node === clicked_node);
 
-        if (clicks !== -1) {
+        if (click !== -1) {
           const response = await fetch(
             "http://127.0.0.1:5000/expand?id=" + clicked_node
           );
 
           const data = await response.json();
 
-          console.log(data)
-
-          setData((prev) => {
-            return {
-              nodes: data.nodes,
-              links: data.edges,
-              clicks: prev.clicks.filter((node) => node !== clicked_node),
-            };
-          });
-          
+          setData({ nodes: data.nodes, links: data.edges });
         } else {
-          const clickedNodes = [...data.clicks, clicked_node];
-
-          setData((prev) => {
-            return {
-              ...prev,
-              clicks: clickedNodes,
-            };
-          });
+          setClicks((prevClicks) => [...prevClicks, clicked_node]);
         }
       })
       .on("mouseover", (nodeData) => {
@@ -150,7 +137,8 @@ export default function Transaction() {
 
     svg.call(zoomBehavior);
     svg.call(zoomBehavior.transform, zoomIdentity);
-  }, [data]);
+    
+  }, [data, clicks]);
 
   return (
     <div className="bg-bluish-black">

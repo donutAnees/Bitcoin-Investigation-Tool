@@ -6,23 +6,29 @@ import Root from "./pages/root";
 import Graph from "./pages/graph";
 import Home from "./pages/home";
 import Transaction from "./pages/transaction";
+import Wallet from "./pages/wallet";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Root/>,
+      element: <Root />,
       children: [
         {
           path: "/graph",
           element: <Graph />,
-        },{
+        },
+        {
           path: "/",
-          element: <Home/>
+          element: <Home />,
+        },
+        {
+          path: "/wallet",
+          element: <Wallet />,
         },
         {
           path: `/transaction/:hash`,
-          element: <Transaction/>,
+          element: <Transaction />,
           loader: TransactionGraphLoader,
         },
       ],
