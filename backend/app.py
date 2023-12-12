@@ -32,7 +32,7 @@ def expand():
         details_dict['edges'].append(new_edge)
     return new_dict
 
-@app.route('/wallet' , method = ['GET'])
+@app.route('/wallet' , methods = ['GET'])
 def getStatus():
     walletID = request.args.get("id")
     status = 'illegal'

@@ -57,10 +57,9 @@ export default function Transaction() {
         network.body.data.nodes.update({
           id: element.id,
           value: element.title.details.total,
-          title: element.title.details.total,
+          title: `Block Height: ${element.title.details.blockheight}\n Total: ${element.title.details.total}\n Input: ${element.title.details.inputs}\n Output: ${element.title.details.outputs}`,
           color: "#FB7E81",
         });
-        console.log(element);
       });
 
       newData.edges.forEach((element) => {
@@ -71,6 +70,12 @@ export default function Transaction() {
         });
       });
     });
+
+    return () => {
+      if (network) {
+        network.destroy();
+      }
+    };
   }, [visJsRef, options, backendData]);
 
   return <div className="w-screen h-screen bg-bluish-black" ref={visJsRef} />;
