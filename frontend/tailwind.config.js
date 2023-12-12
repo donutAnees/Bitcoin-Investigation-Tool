@@ -7,10 +7,13 @@ module.exports = {
         'dark-bg' : "url('/public/images/heroglowdark.jpg')",
         'light-bg' : "url('/public/images/heroglow.jpg')",
         'icon-dark-bg' : "url('/public/images/titlecard.png')",
-        'icon-bg' : "url('/public/images/titlecardlight.png')"
+        'icon-bg' : "url('/public/images/titlecardlight.png')",
+        'purple-bg' :"url('/public/images/wallet-hero-gradient.jpg')",
+
       },
       colors:{
         'bluish-black': '#05070e',
+        'brightRed': '#FF0000',
       } , 
       animation: {
         'slide-in': 'slide-in 1.25s',
@@ -28,5 +31,6 @@ module.exports = {
     }, 
   },
   plugins: [],
+  
 }
 
