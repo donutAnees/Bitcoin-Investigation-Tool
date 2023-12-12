@@ -1,10 +1,13 @@
 import pandas as pd
 import get_tx_details
 
+#uncomment during production
+
 def add_node(tx_id, details_dict, other):
     nodes = []
     if (tx_id not in details_dict['nodes']):
-        details = get_tx_details.get_transaction_info(tx_id)
+        #details = get_tx_details.get_transaction_info(tx_id)
+        details = pd.read_csv('/transaction_folder/' + tx_id) #remove at production
         node = {'id': tx_id, 'title': {
             'details': details,
             'other': other,

@@ -6,6 +6,8 @@ from flask_session import Session
 import get_graph_details
 import get_tx_details
 
+#cant risk api calls for made sure to only read from the files
+
 details_dict = {
     'nodes' : [],
     'edges' : []
@@ -19,7 +21,7 @@ Session(app)
 def init():
     hash = request.args.get("hash")
     details_dict['nodes'].append({'id':hash})
-    get_tx_details.get_transaction_info(hash)
+    #get_tx_details.get_transaction_info(hash)
     return details_dict
 
 @app.route('/expand' , methods = ["GET"])
