@@ -1,12 +1,11 @@
 from flask import Flask , render_template
 from flask import request
 from flask_cors import CORS
-from flask_session import Session
 
 import get_graph_details
 import get_tx_details
 
-#cant risk api calls for made sure to only read from the files
+#cant risk api calls for made sure to only read from the files, commented stuff should be uncommented during production 
 
 details_dict = {
     'nodes' : [],
@@ -14,9 +13,8 @@ details_dict = {
 }
 
 app = Flask('__name__')
-CORS(app)
+CORS(app) 
 
-Session(app)
 @app.route('/transactionhash' , methods = ["GET"])
 def init():
     hash = request.args.get("hash")

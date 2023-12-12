@@ -14,7 +14,25 @@ export default function Transaction() {
   const visJsRef = useRef(null);
   //adding hover interaction
   const options = useMemo(() => {
-    return { interaction: { hover: true } };
+    return {
+      interaction: { hover: true },
+      nodes: {
+        //shape must be specified for the scaling to work
+        shape: "dot",
+        // scaling: {
+        //   min: 10,
+        //   max: 30,
+        //   customScalingFunction: function (min, max, total, value) {
+        //     if (max === min) {
+        //       return 0.5;
+        //     } else {
+        //       let scale = 1 / (max - min);
+        //       return Math.max(0, (value - min) * scale);
+        //     }
+        //   },
+        // },
+      },
+    };
   }, []);
 
   useEffect(() => {
@@ -24,7 +42,10 @@ export default function Transaction() {
       visJsRef.current &&
       new Network(visJsRef.current, { nodes, edges }, options);
     //updated the first node to display the color i want
-    network.body.data.nodes.update({ id: nodes[0].id, color: "#FB7E81" });
+    network.body.data.nodes.update({
+      id: nodes[0].id,
+      color: "#FB7E81",
+    });
 
     network.on("selectNode", async (event) => {
       //get selectedNode ID
@@ -35,10 +56,11 @@ export default function Transaction() {
       newData.nodes.forEach((element) => {
         network.body.data.nodes.update({
           id: element.id,
-          title: element.title,
+          value: element.title.details.total,
+          title: element.title.details.total,
           color: "#FB7E81",
         });
-        console.log(element.title)
+        console.log(element);
       });
 
       newData.edges.forEach((element) => {
