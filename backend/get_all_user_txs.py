@@ -34,5 +34,5 @@ def get_all_transaction(user_hash):
 if __name__ == "__main__":
     with open("./unknown.txt") as file:
         for wallet_id in file:
-           get_all_transaction(wallet_id.strip())
-    file.close() 
+            get_all_transaction(wallet_id.strip())
+    file.close()

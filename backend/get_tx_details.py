@@ -20,9 +20,9 @@ def get_transaction_info(transaction_id):
         next_io = True
 
     if(next_io == True):
-         response = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" + transaction_id + "?token=cd380b7fda6a44909bff4645ec8b0448&limit="+str(max(no_of_inputs, no_of_outputs)))
-         response_json = response.json()
-         
+        response = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" + transaction_id + "?token=cd380b7fda6a44909bff4645ec8b0448&limit="+str(max(no_of_inputs, no_of_outputs)))
+        response_json = response.json()
+
     for i in range (no_of_inputs):
 
         in_field = response_json.get("inputs",[])

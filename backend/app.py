@@ -1,6 +1,7 @@
 from flask import Flask , render_template
 from flask import request
 from flask_cors import CORS
+from flask_session import Session
 
 import get_graph_details
 
@@ -10,8 +11,9 @@ details_dict = {
 }
 
 app = Flask('__name__')
-CORS(app) 
+CORS(app)
 
+Session(app)
 @app.route('/transactionhash' , methods = ["GET"])
 def init():
     hash = request.args.get("hash")
