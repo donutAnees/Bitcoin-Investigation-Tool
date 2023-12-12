@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_session import Session
 
 import get_graph_details
+import get_tx_details
 
 details_dict = {
     'nodes' : [],
@@ -18,7 +19,7 @@ Session(app)
 def init():
     hash = request.args.get("hash")
     details_dict['nodes'].append({'id':hash})
-    print(details_dict)
+    get_tx_details.get_transaction_info(hash)
     return details_dict
 
 @app.route('/expand' , methods = ["GET"])
@@ -29,8 +30,6 @@ def expand():
         details_dict['nodes'].append(new_node)
     for new_edge in new_dict['edges']:
         details_dict['edges'].append(new_edge)
-
-    print(new_dict)
     return new_dict
 
 if __name__ == "__main__":

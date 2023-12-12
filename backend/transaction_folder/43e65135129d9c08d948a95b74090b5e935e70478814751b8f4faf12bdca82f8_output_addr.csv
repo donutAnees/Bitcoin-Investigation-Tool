@@ -1,0 +1,3 @@
+value,script,spent_by,addresses,script_type
+5000000000,76a9144e40d00c5c73b4b607c4928a0e504e937ff2437088ac,5066d6ca6e5e7b3aa122ba122a2fc0cac4f96dd796446f378acefd99a392642c,['188mMEBituCX5Z62SKqk8XWuZw9ypaN3RQ'],pay-to-pubkey-hash
+4490000,76a91457f74335a6ea557d6b7b1a9af5895f91517c319388ac,61a9907a88dad5fd264125ea15bff66db89f0be980c7fa3f206f4f6f766f788f,['1927znuigoYvNeMUEzZWPtdVyk3XFLobZ8'],pay-to-pubkey-hash
