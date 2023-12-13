@@ -15,34 +15,36 @@ export default function Wallet() {
       }
     };
     const handleSubmit = () => {
-      setLegalStatus(inputValue === 'legal' ? 'Legal' : 'Illegal');
+      setLegalStatus(inputValue === '123' ? 'Legal' : 'Illegal');
       setSubmitted(true);
     };
   
   return (
-    <div className="bg-purple-bg purple:bg-purple-bg h-screen bg-cover w-screen relative">
+    <div className="bg-slate-50 dark:bg-bluish-black h-screen bg-light-bg dark:bg-dark-bg absolute bg-cover w-screen">
         <Navbar></Navbar>
       <h1 className="text-center dark:text-white font-extrabold text-3xl mx-auto mt-20 animate-slide-in">
 
       Explore the legal terrain of wallets! </h1><br></br>
       <p className="text-center dark:text-white font-bold text-xl mx-auto mt-25"> Enter a wallet ID to quickly determine its legal status and ensure a secure and compliant financial experience.</p>
       <br></br>     
-      <div className="text-center dark:text-black font-bold">
-        <div className="container mx-auto mt-10 text-center ">
+      <div className="text-center dark:text-black font-bold text-lg">
+        <div className="container mx-auto mt-11 text-center ">
         <input
           type="text"
           value={inputValue}
           onChange={handleInputChange}
-          className="border p-2 mb-4 rounded-md"
+          className="border p-3.5 mb-7 rounded-md"
           placeholder="Enter Wallet id"
         />
-        <button className="bg-purple-bg purple:bg-purple-bg text-white px-3.5 py-2.5 rounded-md transition-all duration-300 transform hover:scale-110"onClick={handleSubmit}>
+        <button className="bg-bluish-black text-white text-lg px-5 py-4 rounded-md transition-all duration-300 transform hover:scale-110"onClick={handleSubmit}>
         Submit
         </button>
-
+        <div className=" mt-11"> 
+        
         {submitted && legalStatus !== null && (
         <ResultDisplay legalStatus={legalStatus} />
       )}
+      </div>
       </div>
       </div>
     </div>

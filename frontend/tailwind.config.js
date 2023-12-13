@@ -11,12 +11,16 @@ module.exports = {
         'purple-bg' :"url('/public/images/wallet-hero-gradient.jpg')",
 
       },
+      dropShadow: {
+        '3xl': '0px 0px 35px rgba(255, 255, 255, 0.5)',
+      },
       colors:{
         'bluish-black': '#05070e',
         'brightRed': '#FF0000',
       } , 
       animation: {
         'slide-in': 'slide-in 1.25s',
+        'wiggle': 'wiggle 1s ease-in-out infinite',
       },
       keyframes: {
         'slide-in': {
@@ -26,6 +30,10 @@ module.exports = {
           '100%': {
             transform: 'translateX(0)',
           },
+        },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
         },
       },
     }, 
