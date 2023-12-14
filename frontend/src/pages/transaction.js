@@ -44,7 +44,7 @@ export default function Transaction() {
     //updated the first node to display the color i want
     network.body.data.nodes.update({
       id: nodes[0].id,
-      color: "#FB7E81",
+      color: "#e6ffda",
     });
 
     network.on("selectNode", async (event) => {
@@ -58,7 +58,7 @@ export default function Transaction() {
           id: element.id,
           value: element.title.details.total,
           title: `Block Height: ${element.title.details.blockheight}\n Total: ${element.title.details.total}\n Input: ${element.title.details.inputs}\n Output: ${element.title.details.outputs}`,
-          color: "#FB7E81",
+          color: "#e6ffda",
         });
       });
 

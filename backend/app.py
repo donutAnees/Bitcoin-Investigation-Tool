@@ -4,8 +4,9 @@ from flask_cors import CORS
 
 import get_graph_details
 import get_tx_details
+import get_mixer_nodes
 
-#cant risk api calls for made sure to only read from the files, commented stuff should be uncommented during production 
+#cant risk api calls so made sure to only read from the files, commented stuff should be uncommented during production 
 
 details_dict = {
     'nodes' : [],
@@ -37,6 +38,11 @@ def getStatus():
     walletID = request.args.get("id")
     status = 'illegal'
     return {'status' : status}
+
+@app.route('/mixers' , methods = ['GET'])
+def getMixers():
+    get_mixer_nodes.getMixer(details_dict)
+    return details_dict
 
 if __name__ == "__main__":
     app.run(debug=True)
