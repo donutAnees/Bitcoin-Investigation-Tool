@@ -106,6 +106,7 @@ def get_transaction_info(transaction_id):
         'total': response_json['total'],
         'inputs': response_json['vin_sz'],
         'outputs': response_json['vout_sz'],
+        'id': transaction_id, 
     }
 
     df = pd.DataFrame(tx_detail, index=[0])

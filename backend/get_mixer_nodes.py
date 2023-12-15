@@ -2,6 +2,9 @@ import pandas as pd
 import requests 
 
 def getMixer(graph):
+
+    print(graph)
+    
     nodes = graph['nodes']
 
     #each transaction node is iterated, and the input wallets of that transaction are taken from the input_addr file

@@ -19,8 +19,8 @@ CORS(app)
 @app.route('/transactionhash' , methods = ["GET"])
 def init():
     hash = request.args.get("hash")
-    details_dict['nodes'].append({'id':hash})
-    #get_tx_details.get_transaction_info(hash)
+    tx_detail = get_tx_details.get_transaction_info(hash)
+    details_dict['nodes'].append(tx_detail)
     return details_dict
 
 @app.route('/expand' , methods = ["GET"])

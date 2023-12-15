@@ -2,83 +2,87 @@ import { useLoaderData } from "react-router-dom";
 import { useRef, useEffect, useMemo } from "react";
 import { Network } from "vis-network";
 
-//Sigh i hate commenting, but here we go guys
-
 export default function Transaction() {
   const backendData = useLoaderData();
-
-  //Made a ref to access the DOM Element
-
-  //each node has a title field which will be displayed when hovered, make sure the required vis-network.min.css file link is given in the public html
-
   const visJsRef = useRef(null);
-  //adding hover interaction
+  const networkRef = useRef(null);  
+
   const options = useMemo(() => {
     return {
       interaction: { hover: true },
       nodes: {
-        //shape must be specified for the scaling to work
         shape: "dot",
-        // scaling: {
-        //   min: 10,
-        //   max: 30,
-        //   customScalingFunction: function (min, max, total, value) {
-        //     if (max === min) {
-        //       return 0.5;
-        //     } else {
-        //       let scale = 1 / (max - min);
-        //       return Math.max(0, (value - min) * scale);
-        //     }
-        //   },
-        // },
       },
     };
   }, []);
 
+  const prepareNetwork = (network, newData) => {
+    newData.nodes.forEach((element) => {
+      network.body.data.nodes.update({
+        id: element.id,
+        value: element.title.details.total,
+        title: `Block Height: ${element.title.details.blockheight}\n Total: ${element.title.details.total}\n Input: ${element.title.details.inputs}\n Output: ${element.title.details.outputs}`,
+        color: "#e6ffda",
+      });
+    });
+
+    newData.edges.forEach((element) => {
+      network.body.data.edges.update({
+        from: element.source,
+        to: element.target,
+        arrows: "middle",
+      });
+    });
+  };
+
   useEffect(() => {
     const { nodes, edges } = backendData;
 
-    const network =
+    networkRef.current =
       visJsRef.current &&
       new Network(visJsRef.current, { nodes, edges }, options);
-    //updated the first node to display the color i want
-    network.body.data.nodes.update({
-      id: nodes[0].id,
-      color: "#e6ffda",
-    });
 
-    network.on("selectNode", async (event) => {
-      //get selectedNode ID
+
+    networkRef.current.body.data.nodes.update({
+        id: nodes[0].id,
+        color: "#e6ffda",
+        value: nodes[0].total,
+        title: `Block Height: ${nodes[0].blockheight}\n Total: ${nodes[0].total}\n Input: ${nodes[0].inputs}\n Output: ${nodes[0].outputs}`,
+      });
+
+    networkRef.current.on("selectNode", async (event) => {
       const nodeID = event.nodes[0];
       const response = await fetch("http://127.0.0.1:5000/expand?id=" + nodeID);
       const newData = await response.json();
 
-      newData.nodes.forEach((element) => {
-        network.body.data.nodes.update({
-          id: element.id,
-          value: element.title.details.total,
-          title: `Block Height: ${element.title.details.blockheight}\n Total: ${element.title.details.total}\n Input: ${element.title.details.inputs}\n Output: ${element.title.details.outputs}`,
-          color: "#e6ffda",
-        });
-      });
-
-      newData.edges.forEach((element) => {
-        network.body.data.edges.update({
-          from: element.source,
-          to: element.target,
-          arrows: "middle",
-        });
-      });
+      prepareNetwork(networkRef.current, newData);
     });
 
     return () => {
-      if (network) {
-        network.destroy();
+      if (networkRef.current) {
+        networkRef.current.destroy();
       }
     };
   }, [visJsRef, options, backendData]);
 
-  return <div className="w-screen h-screen bg-bluish-black" ref={visJsRef} />;
+  const updateMixers = async () => {
+    const response = await fetch("http://127.0.0.1:5000/mixers");
+    const data = await response.json();
+    //prepareNetwork(networkRef.current, data);  
+    console.log(data)
+  };
+
+  return (
+    <div>
+      <div
+        className="bg-red-600 text-center w-1/4 z-10 absolute left-1/2 transform -translate-x-1/2 text-white"
+        onClick={() => updateMixers()}
+      >
+        Find Mixers
+      </div>
+      <div className="w-screen h-screen bg-bluish-black" ref={visJsRef} />
+    </div>
+  );
 }
 
 export async function loader({ request, params }) {
