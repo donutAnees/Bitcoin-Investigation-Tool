@@ -2,8 +2,7 @@ import requests
 import pandas as pd
 
 def get_transaction_info(transaction_id):
-    response = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" +
-                            str(transaction_id) + "?token=cd380b7fda6a44909bff4645ec8b0448")
+    response = requests.get("https://api.blockcypher.com/v1/btc/main/txs/" + str(transaction_id) + "?token=cd380b7fda6a44909bff4645ec8b0448")
     response_json = response.json()
 
     no_of_inputs = response_json["vin_sz"]
@@ -106,11 +105,13 @@ def get_transaction_info(transaction_id):
         'total': response_json['total'],
         'inputs': response_json['vin_sz'],
         'outputs': response_json['vout_sz'],
-        'id': transaction_id, 
+        'id': transaction_id,
+        'output_addresses': output_dict['addresses'],
+        'input_addresses': input_dict['addresses']
     }
 
-    df = pd.DataFrame(tx_detail, index=[0])
-    df.to_csv("./transaction_folder/" + transaction_id, index=False)
+    #df = pd.DataFrame(tx_detail, index=[0])
+    #df.to_csv("./transaction_folder/" + transaction_id, index=False)
 
     return tx_detail
 
