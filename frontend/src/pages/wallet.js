@@ -45,7 +45,7 @@ export default function Wallet() {
         <div className=" mt-11"> 
         
         {submitted && legalStatus !== null && (
-        <ResultDisplay legalStatus={legalStatus} />
+        <ResultDisplay inputValue={legalStatus} />
       )}
       </div>
       </div>
