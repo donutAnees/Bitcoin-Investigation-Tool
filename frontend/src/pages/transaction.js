@@ -1,11 +1,11 @@
+import { useEffect, useMemo, useRef } from "react";
 import { useLoaderData } from "react-router-dom";
-import { useRef, useEffect, useMemo } from "react";
 import { Network } from "vis-network";
 
 export default function Transaction() {
   const backendData = useLoaderData();  
   const visJsRef = useRef(null);
-  const networkRef = useRef(null);  
+  const networkRef = useRef(null);
 
   const options = useMemo(() => {
     return {
@@ -68,7 +68,7 @@ export default function Transaction() {
   const updateMixers = async () => {
     const response = await fetch("http://127.0.0.1:5000/mixers");
     const data = await response.json();
-    //prepareNetwork(networkRef.current, data);  
+    //prepareNetwork(networkRef.current, data);
     console.log(data)
   };
 
