@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router-dom";
 import { Network } from "vis-network";
 
 export default function Transaction() {
-  const backendData = useLoaderData();
+  const backendData = useLoaderData();  
   const visJsRef = useRef(null);
   const networkRef = useRef(null);
 
