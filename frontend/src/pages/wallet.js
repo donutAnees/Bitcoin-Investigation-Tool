@@ -14,8 +14,10 @@ export default function Wallet() {
       setLegalStatus(null);
       }
     };
-    const handleSubmit = () => {
-      setLegalStatus(inputValue === '123' ? 'Legal' : 'Illegal');
+    const handleSubmit = async() => {
+      const response = await fetch("http://127.0.0.1:5000/expand?id=" + nodeID);
+      const status = response.json()
+      setLegalStatus(status === "legal");
       setSubmitted(true);
     };
   
