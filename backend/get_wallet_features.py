@@ -1,11 +1,13 @@
 import get_all_user_txs
 import json
 import statistics as stats
+import os
 
 # 'first_sent_block','fees_max','first_block_appeared_in','fees_median','fees_mean','last_block_appeared_in','blocks_btwn_txs_max','blocks_btwn_output_txs_max','blocks_btwn_output_txs_mean'
 def get_wallet_feat(walletid):
-    # get_all_user_txs.get_all_transaction(walletid)
-
+    
+    if(not (os.path.isfile("./wallets/"+walletid.strip()+".json"))):
+        get_all_user_txs.get_all_transaction(walletid)
     with open("./wallets/"+walletid.strip()+".json","r") as walletfile:
         features = []
         filedata = json.load(walletfile)
