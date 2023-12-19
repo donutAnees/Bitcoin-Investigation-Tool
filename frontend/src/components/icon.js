@@ -13,6 +13,10 @@ const items = [
     img: "/images/wallet.png",
     link:"/wallet"
   },
+  {
+    icon: "Scrap",
+    link:"/scrap"
+  },
 ];
 
 export default function Icon() {

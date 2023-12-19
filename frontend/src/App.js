@@ -7,6 +7,7 @@ import Graph from "./pages/graph";
 import Home from "./pages/home";
 import Transaction from "./pages/transaction";
 import Wallet from "./pages/wallet";
+import Scrap from "./pages/scrap";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,6 +26,10 @@ function App() {
         {
           path: "/wallet",
           element: <Wallet />,
+        },
+        {
+          path: "/scrap",
+          element: <Scrap />,
         },
         {
           path: `/transaction/:hash`,
