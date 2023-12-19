@@ -11,10 +11,8 @@ def results(walletid):
     feature_values = get_wallet_features.get_wallet_feat(walletid)
     input_features = pd.DataFrame([feature_values],columns = X)
     y = model.predict(input_features)[0]
-    if y == 0:
-        prediction = "legal"
-    else:
+    if y == 1:
         prediction = "illegal"
+    else:
+        prediction = "legal"
     return prediction
-
-print(results("111112TykSw72ztDN2WJger4cynzWYC5w"))

@@ -4,7 +4,7 @@ import statistics as stats
 
 # 'first_sent_block','fees_max','first_block_appeared_in','fees_median','fees_mean','last_block_appeared_in','blocks_btwn_txs_max','blocks_btwn_output_txs_max','blocks_btwn_output_txs_mean'
 def get_wallet_feat(walletid):
-    get_all_user_txs.get_all_transaction(walletid)
+    # get_all_user_txs.get_all_transaction(walletid)
 
     with open("./wallets/"+walletid.strip()+".json","r") as walletfile:
         features = []
@@ -21,10 +21,12 @@ def get_wallet_feat(walletid):
             for tx in filedata["txs"]:
                 alltxs.append(tx["block_height"])
                 fee.append(tx["fees"])
-                if walletid in tx['inputs']['addresses']:
-                    isinput.append(tx['block_height'])
-                if walletid in tx['outputs']['addresses']:
-                    isoutput.append(tx['block_height'])
+                for i in tx['inputs']:
+                    if walletid in i['addresses']:
+                        isinput.append(tx['block_height'])
+                for o in tx['outputs']:
+                    if walletid in o['addresses']:
+                        isoutput.append(tx['block_height'])
             alltxs.sort()
             isoutput.sort()
             blocks_btwn_txs_max = 0
@@ -41,16 +43,33 @@ def get_wallet_feat(walletid):
                     blocks_btn_out.append(diff)
                     if diff > blocks_btwn_output_txs_max:
                         blocks_btwn_output_txs_max = diff
-            
-            features.append(min(isinput))
-            features.append(max(fee))
-            features.append(min(isoutput))
-            features.append(stats.median(fee))
-            features.append(stats.mean(fee))
-            features.append(max(isoutput))
+            if len(isinput)!=0:
+                features.append(min(isinput))
+            else:
+                features.append(0)
+            if len(fee)!=0:
+                features.append(max(fee))
+            else:
+                features.append(0)
+            if len(isoutput)!=0:
+                features.append(min(isoutput))
+            else:
+                features.append(0)
+            if len(fee)!=0:
+                features.append(stats.median(fee))
+                features.append(stats.mean(fee))
+            else:
+                features.extend([0,0])
+            if len(isoutput)!=0:
+                features.append(max(isoutput))
+            else:
+                features.append(0)
             features.append(blocks_btwn_txs_max)
             features.append(blocks_btwn_output_txs_max)
-            features.append(stats.mean(blocks_btn_out))
+            if len(blocks_btn_out)!=0:
+                features.append(stats.mean(blocks_btn_out))
+            else:
+                features.append(0)
 
             return features
 
