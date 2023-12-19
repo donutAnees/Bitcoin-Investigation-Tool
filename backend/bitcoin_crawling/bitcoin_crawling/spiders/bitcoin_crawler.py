@@ -1,13 +1,15 @@
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
+
+# from urllib.parse import urljoin, urlparse
 import csv
 import os
 
 
 class BitcoinCrawler(CrawlSpider):
     name = "bitcoin_crawler"
-    allowed_domains = ["bitcoincore.org"]
-    start_urls = ["https://bitcoincore.org/"]
+    allowed_domains = ["bitcoin.org"]
+    start_urls = ["https://bitcoin.org/en/"]
 
     rules = (Rule(LinkExtractor(), callback="parse_item", follow=True),)
 
@@ -22,6 +24,14 @@ class BitcoinCrawler(CrawlSpider):
         with open(output_file, "a", newline="", encoding="utf-8") as csvfile:
             csv_writer = csv.writer(csvfile)
             for link in links:
-                csv_writer.writerow([link])
-
+                # absolute_url = urljoin(response.url, link)
+                # if self.is_valid_url(absolute_url):
+                if link.startswith("http"):
+                    csv_writer.writerow([link])
         self.log(f"Appended {len(links)} links to {output_file}.")
+
+
+"""
+        def is_valid_url(self, url):
+            parsed_url = urlparse(url)
+            return parsed_url.scheme and parsed_url.netloc"""
