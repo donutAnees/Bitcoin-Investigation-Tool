@@ -21,7 +21,7 @@ export default function Transaction() {
       network.body.data.nodes.update({
         id: element.id,
         value: element.title.details.total,
-        title: `Block Height: ${element.title.details.blockheight}\n Total: ${element.title.details.total}\n Input: ${element.title.details.inputs}\n Output: ${element.title.details.outputs}`,
+        title: `Block Height: ${element.title.details.blockheight}\n Total: ${element.title.details.total}\n Input: ${element.title.details.inputs}\n Output: ${element.title.details.outputs}\n Output Address:${element.title.details.output_address}\n Input Address:${element.title.details.input_address} `,
         color: "#e6ffda",
       });
     });
@@ -47,7 +47,7 @@ export default function Transaction() {
         id: nodes[0].id,
         color: "#e6ffda",
         value: nodes[0].total,
-        title: `Block Height: ${nodes[0].blockheight}\n Total: ${nodes[0].total}\n Input: ${nodes[0].inputs}\n Output: ${nodes[0].outputs}`,
+        title: `Block Height: ${nodes[0].blockheight}\n Total: ${nodes[0].total}\n Input: ${nodes[0].inputs}\n Output: ${nodes[0].outputs}\n Output Address: ${nodes[0].output_address}\n Input Address: ${nodes[0].input_address}`,
       });
 
     networkRef.current.on("selectNode", async (event) => {

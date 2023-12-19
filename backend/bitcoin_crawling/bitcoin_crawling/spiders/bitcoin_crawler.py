@@ -6,8 +6,8 @@ import os
 
 class BitcoinCrawler(CrawlSpider):
     name = "bitcoin_crawler"
-    allowed_domains = ["bitcoin.com"]
-    start_urls = ["https://www.bitcoin.com/"]
+    allowed_domains = ["bitcoincore.org"]
+    start_urls = ["https://bitcoincore.org/"]
 
     rules = (Rule(LinkExtractor(), callback="parse_item", follow=True),)
 
