@@ -27,7 +27,7 @@ def get_all_transaction(user_hash):
         "txs" : txs,
     }
 
-    with open("./unknown_wallets/" + user_hash + ".json" , "w") as file:
+    with open("./wallets/" + user_hash + ".json" , "w") as file:
         json.dump(data,file)
     file.close()
 

@@ -5,6 +5,7 @@ from flask_cors import CORS
 import get_graph_details
 import get_tx_details
 import get_mixer_nodes
+import prediction
 
 #cant risk api calls so made sure to only read from the files, commented stuff should be uncommented during production 
 
@@ -36,7 +37,7 @@ def expand():
 @app.route('/wallet' , methods = ['GET'])
 def getStatus():
     walletID = request.args.get("id")
-    status = 'illegal'
+    status = prediction.results(walletID)
     return {'status' : status}
 
 @app.route('/mixers' , methods = ['GET'])
