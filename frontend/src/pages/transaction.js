@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router-dom";
 import { Network } from "vis-network";
 
 export default function Transaction() {
-  const backendData = useLoaderData();  
+  const backendData = useLoaderData();
   const visJsRef = useRef(null);
   const networkRef = useRef(null);
 
@@ -47,11 +47,7 @@ export default function Transaction() {
         id: nodes[0].id,
         color: "#e6ffda",
         value: nodes[0].total,
-<<<<<<< HEAD
-        title: `Block Height: ${nodes[0].blockheight}\n Total: ${nodes[0].total}\n Input: ${nodes[0].inputs}\n Output: ${nodes[0].outputs} \n Output Addresses: ${nodes[0].output_addresses} \n Input Addresses: ${nodes[0].input_addresses}`,
-=======
         title: `Block Height: ${nodes[0].blockheight}\n Total: ${nodes[0].total}\n Input: ${nodes[0].inputs}\n Output: ${nodes[0].outputs} \n Input Addresses: ${nodes[0].input_address}\n Output Address:${nodes[0].output_address}`,
->>>>>>> 7823abbc748710833cef2b6c22609fe818aab67c
       });
 
     networkRef.current.on("selectNode", async (event) => {
