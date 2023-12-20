@@ -28,8 +28,9 @@ with open("./pcapdeeps.json", "r") as pcapfile:
                     layers["tcp.dstport"][0],
                     layers["frame.time"][0],
                     layers["frame.time_epoch"][0],
-                    layers["tcp.payload"][0],
-                    layers["bitcoin.command"][0],
+                    layers["bitcoin.tx.version"][0],
+                    layers["bitcoin.tx.out.script"][0],
+                    layers["bitcoin.command"][0]
                 )
                 filtereddata.add(transaction_key)
 
