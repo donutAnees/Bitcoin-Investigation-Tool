@@ -5,22 +5,27 @@ import Navbar from "../components/navbar";
 export default function Scrap(){
 const [walletId, setWalletId] = useState('');
 const [result, setResult] = useState('');
+const [website, setWebsite] = useState('');
 
 const handleCheckWallet = async () => {
     try {
         const response = await fetch("http://127.0.0.1:5000/" + "walletavail?id=" + walletId)
-        const { availability} = await response.json();
+        const {availability,website} = await response.json();
         
         console.log('Wallet ID to Check:', walletId);
         console.log('Wallet Found:', availability);
+
         if (availability) {
             setResult('Wallet found');
+            setWebsite(website);
         } else {
             setResult('Wallet not found');
+            setWebsite('');
         }
+        
         } catch (error) {
         console.error('Error reading CSV file:', error);
-        setResult('Error reading CSV file');
+        setResult('Error reading CSV file');
         }
     };
 
@@ -42,7 +47,9 @@ return (
             >
             Check Wallet
             </button>
-            <div className="mt-4">{result && <p className="text-sm">{result}</p>}</div>
+            <div className="mt-4">{result && <p className="text-sm">{result}</p>}
+            {website && <p className="text-sm">Website: <a href={website} target="_blank" rel="noopener noreferrer"> {website}</a></p>}
+            </div>
         </div>
     </div>
     );
