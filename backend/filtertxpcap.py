@@ -1,7 +1,7 @@
 import json
 import csv
 
-with open("./pcapdeeps.json", "r") as pcapfile:
+with open("./packet.json", "r") as pcapfile:
     pcapdata = json.load(pcapfile)
     filtereddata = set()
     headers = [
@@ -11,8 +11,8 @@ with open("./pcapdeeps.json", "r") as pcapfile:
         "tcp.dstport",
         "frame.time",
         "frame.time_epoch",
-        "bitcoin.tx.out.script",
         "bitcoin.tx.version",
+        "bitcoin.tx.out.script",
         "bitcoin.command",
     ]
 
