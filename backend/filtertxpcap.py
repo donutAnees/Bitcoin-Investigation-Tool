@@ -11,7 +11,8 @@ with open("./pcapdeeps.json", "r") as pcapfile:
         "tcp.dstport",
         "frame.time",
         "frame.time_epoch",
-        "tcp.payload",
+        "bitcoin.tx.out.script",
+        "bitcoin.tx.version",
         "bitcoin.command",
     ]
 
@@ -39,3 +40,4 @@ with open("./filteredpcap.csv", "w") as filterfile:
     csvwriter = csv.writer(filterfile)
     csvwriter.writerow(headers)
     csvwriter.writerows(filtereddata_list)
+

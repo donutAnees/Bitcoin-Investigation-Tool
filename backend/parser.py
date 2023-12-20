@@ -42,9 +42,3 @@ def get_address(hash , version):
     # #encode258
     address = base58.b58encode(bytes.fromhex(addr_in_hex)).decode('utf-8')    
     return address
-
-hash="473044022100edf664ebfc12a3998d242fbdd8a1a44c13e4e7f6d7dbddde9ae5610bfd2c9c38021f74ec1e2eca7310baa17c60cbaaffa0503cee680f13fd9a10fd04f2910958c9012103486669962008e0713660b6d69117a65fcecd221d06c1e5077b4d9cd477c0cf98"
-
-addr=get_address(hash,"00")
-
-print("bitcoin addr:", addr)
