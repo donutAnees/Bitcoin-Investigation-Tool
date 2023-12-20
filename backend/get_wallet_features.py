@@ -50,7 +50,7 @@ def get_wallet_feat(walletid):
             else:
                 features.append(0)
             if len(fee)!=0:
-                features.append(max(fee)/100000000)
+                features.append(max(fee))
             else:
                 features.append(0)
             if len(isoutput)!=0:
@@ -58,8 +58,8 @@ def get_wallet_feat(walletid):
             else:
                 features.append(0)
             if len(fee)!=0:
-                features.append(stats.median(fee)/100000000)
-                features.append(stats.mean(fee)/100000000)
+                features.append(stats.median(fee))
+                features.append(stats.mean(fee))
             else:
                 features.extend([0,0])
             if len(isoutput)!=0:
@@ -72,7 +72,7 @@ def get_wallet_feat(walletid):
                 features.append(stats.mean(blocks_btn_out))
             else:
                 features.append(0)
-            print(features)
+            # print(features)
             return features
 
 

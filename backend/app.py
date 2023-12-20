@@ -57,8 +57,9 @@ def getScrap():
         if (
             inputs["Wallet ID"][i].strip() == walletInfo
         ):  # Use strip() to remove leading/trailing whitespaces
-            return {"availability": True}
-    return {"availability": False}
+            print(inputs["Website"][i])
+            return {"availability": True, "website": inputs["Website"][i]}
+    return {"availability": False, "website": None}
 
 
 if __name__ == "__main__":
