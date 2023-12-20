@@ -17,3 +17,4 @@ def results(walletid):
     return prediction
     
 # print(results("1121MFrce2rKw5XRuG7mWCSesLxRrx6Q5A"))
+print(results("14z8PbPKmJMdGPRSVr2u7hHhFemThCK3Rk"))
