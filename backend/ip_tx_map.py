@@ -8,17 +8,32 @@ with open("./packet.json","r") as packetsfile:
     for data in packetdata:
         ip = dict()
         layers = data["_source"]["layers"]
-        ip["src_ip"] = layers["ip"]["ip.src"]
+        if layers.get("ip") is not None:
+            ip["src_ip"] = layers["ip"]["ip.src"]
+        else:
+            continue
+
         txs = []
-        for k in layers:
-            if k=="bitcoin" and layers[k]["bitcoin.command"]=="tx":
-                txs.append(layers[k])
+
+        if layers.get("bitcoin") is not None:
+            bitcoin = layers["bitcoin"]
+        else:
+            continue
+
+        if type(bitcoin) == list:
+            for i in bitcoin:
+                if(i["bitcoin.command"] == "tx"):
+                    txs.append(i["bitcoin.tx"])  
+        else:
+            if(bitcoin["bitcoin.command"] == "tx"):
+                txs.append(bitcoin["bitcoin.tx"])
+            else:
+                continue
+
         ip["txs"] = txs
         if len(txs)!=0:
             ipdata.append(ip)
 
-with open("./checkingjsondata.json", "w") as f:
-    json.dump(packetdata, f)
-
 with open("./ipmapping.json", "w") as ipfile:
     json.dump(ipdata, ipfile)
+ipfile.close()
