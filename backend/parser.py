@@ -13,8 +13,6 @@ def get_address(hash , version):
 
     public_key = hash[length_in_chars + 4:]
 
-    print(public_key)
-
     sha=sha256(bytes.fromhex(public_key))
     
     r=RIPEMD160.new()
@@ -24,21 +22,18 @@ def get_address(hash , version):
     r = r.hexdigest()
 
     # version= '0'
-    extended_public_key= version+ r
-
-    print(extended_public_key)
-
+    extended_public_key= version + r
 
     sha1 = sha256(bytes.fromhex(extended_public_key))
     sha2 =sha256(bytes.fromhex(sha1.hexdigest()))
-    print(sha2)
 
     checksum=sha2.hexdigest()[0:8]
-    print(checksum)
-
 
     addr_in_hex=extended_public_key+checksum
-    print(addr_in_hex)
+
     # #encode258
     address = base58.b58encode(bytes.fromhex(addr_in_hex)).decode('utf-8')    
-    return address
+    
+    print(address)
+
+get_address("473044022001bbb98ef9070d68ab34d2402becf21c6a728f138f550cba358f6f5631c6bf300220450b4ae16a45217cb8c2d43929b9c3968c065c30e1bc5caf6ebfb2e48aac079101210308d8aff8763b126a66bb4192cc5d4c63bb3d7c471cd8c20b270a609090e86a3a", "1")
