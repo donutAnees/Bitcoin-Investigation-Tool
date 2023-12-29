@@ -34,6 +34,6 @@ with open("./packet.json","r") as packetsfile:
         if len(txs)!=0:
             ipdata.append(ip)
 
-with open("./ipmapping.json", "w") as ipfile:
+with open("./extracted.json", "w") as ipfile:
     json.dump(ipdata, ipfile)
 ipfile.close()

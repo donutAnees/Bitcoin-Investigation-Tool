@@ -1,5 +1,4 @@
 import os
-import json
 
 print("enter input and output filenames:")
 input, output= input().split()
