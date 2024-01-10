@@ -1,5 +1,5 @@
 import json
-from parser import get_address
+from getwalletid import get_address
 
 file_path = "./extracted.json"  
 
@@ -22,7 +22,7 @@ for data in filedata:
             for txout in tx["bitcoin.tx.out"]:
                output_wallets.append(txout["bitcoin.tx.out.script"])
          else:
-            if (tx.get("bitcoin.tx.out.script") is not None):
+            if (tx["bitcoin.tx.out"].get("bitcoin.tx.out.script") is not None):
                output_wallets.append(tx["bitcoin.tx.out"]["bitcoin.tx.out.script"])
    if(len(input_wallets) == 0):
       print("NA" , end="\t\t")
