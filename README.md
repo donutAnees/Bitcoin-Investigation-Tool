@@ -1,3 +1,7 @@
-# sih_deanonymization_bitcoin
+# Bitcoin-Investigation-Tool
 
-This project aims to deanonymize bitcoin txs and track the user ip address
+This is a bitcoin investigation tool which provides the following tools 
+- Interactive Blockchain Transaction Visualizer 
+- AIML Wallet Legality Verifier
+- Bitcoin PCAP Decoder
+- Online Wallet Search
