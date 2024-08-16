@@ -6,7 +6,6 @@ def get_transaction_info(transaction_id):
     response = requests.get(
         "https://api.blockcypher.com/v1/btc/main/txs/"
         + str(transaction_id)
-        + "?token=cd380b7fda6a44909bff4645ec8b0448"
     )
     response_json = response.json()
 
@@ -28,7 +27,6 @@ def get_transaction_info(transaction_id):
         response = requests.get(
             "https://api.blockcypher.com/v1/btc/main/txs/"
             + transaction_id
-            + "?token=cd380b7fda6a44909bff4645ec8b0448&limit="
             + str(max(no_of_inputs, no_of_outputs))
         )
         response_json = response.json()

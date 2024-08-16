@@ -51,9 +51,8 @@ def getMixers():
 @app.route("/walletavail", methods=["GET"])
 def getScrap():
     walletInfo = request.args.get("id")
-    inputs = pd.read_csv("output.csv")
+    inputs = pd.read_csv("./tool_webscrapper/output.csv")
     for i in range(len(inputs.index)):
-        print(inputs["Wallet ID"][i])
         if (
             inputs["Wallet ID"][i].strip() == walletInfo
         ):  # Use strip() to remove leading/trailing whitespaces
