@@ -1,4 +1,4 @@
-const item = ["About us", "Profile", "Team", "Contact"];
+const item = [];
 
 export default function Navlist() {
   return (

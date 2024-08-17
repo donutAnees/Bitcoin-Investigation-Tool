@@ -14,8 +14,8 @@ const items = [
     link:"/wallet"
   },
   {
-    icon: "Wallet Checker",
-    description:"lets check the wallet!",
+    icon: "SEARCH WALLET",
+    description:"Check if wallet available on the net",
     img:"/images/wallet_checker.png",
     link:"/scrap"
   },

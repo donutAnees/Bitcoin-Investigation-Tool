@@ -17,6 +17,7 @@ export default function Transaction() {
   }, []);
 
   const prepareNetwork = (network, newData) => {
+    console.log(newData)
     newData.nodes.forEach((element) => {
       network.body.data.nodes.update({
         id: element.id,
@@ -75,7 +76,7 @@ export default function Transaction() {
   return (
     <div>
       <div
-        className="bg-red-600 text-center w-1/4 z-10 absolute left-1/2 transform -translate-x-1/2 text-white"
+        className="text-center w-1/4 z-10 absolute left-1/2 transform -translate-x-1/2 text-black pt-2 pb-2 bg-white rounded-md mt-2 cursor-pointer"
         onClick={() => updateMixers()}
       >
         Find Mixers

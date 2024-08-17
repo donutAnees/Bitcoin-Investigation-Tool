@@ -37,7 +37,7 @@ return (
         <input
             type="text"
             placeholder="Enter Wallet ID"
-            className="w-full p-2 mb-4 text-black border border-gray-300 rounded"
+            className="w-3/4 p-2 mb-4 text-black border border-gray-300 rounded"
             value={walletId}
             onChange={(e) => setWalletId(e.target.value)}
             />
