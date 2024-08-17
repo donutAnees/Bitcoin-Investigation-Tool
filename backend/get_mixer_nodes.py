@@ -2,8 +2,6 @@ import pandas as pd
 import requests 
 
 def getMixer(graph):
-
-    print(graph)
     
     nodes = graph['nodes']
 

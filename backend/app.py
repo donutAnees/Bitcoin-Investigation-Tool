@@ -52,8 +52,9 @@ def getStatus():
 
 @app.route("/mixers", methods=["GET"])
 def getMixers():
-    get_mixer_nodes.getMixer(session['details_dict'])
-    return session['details_dict']
+    details_dict = session.get('details_dict', {"nodes": [], "edges": []})
+    get_mixer_nodes.getMixer(details_dict)
+    return details_dict 
 
 
 @app.route("/walletavail", methods=["GET"])

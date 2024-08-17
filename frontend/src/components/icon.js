@@ -7,12 +7,12 @@ const items = [
     img: "/images/graph.png",
     link: "/graph"
   },
-  {
-    icon: "WALLET",
-    description: "Find out if a wallet is illegal or not",
-    img: "/images/wallet.png",
-    link:"/wallet"
-  },
+  // {
+  //   icon: "WALLET",
+  //   description: "Find out if a wallet is illegal or not",
+  //   img: "/images/wallet.png",
+  //   link:"/wallet"
+  // },
   {
     icon: "SEARCH WALLET",
     description:"Check if wallet available on the net",
