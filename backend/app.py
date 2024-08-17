@@ -8,16 +8,21 @@ import get_tx_details
 import get_mixer_nodes
 import prediction
 
-# cant risk api calls so made sure to only read from the files, commented stuff should be uncommented during production
-
 details_dict = {"nodes": [], "edges": []}
 
 app = Flask("__name__")
 CORS(app)
+cors = CORS(app,resources={
+    r"/*" : {
+        "origins" : "*"
+    }
+})
 
 
 @app.route("/transactionhash", methods=["GET"])
 def init():
+    # If we get a new request, we clear everything we had 
+    details_dict = {"nodes": [], "edges": []}
     hash = request.args.get("hash")
     tx_detail = get_tx_details.get_transaction_info(hash)
     details_dict["nodes"].append(tx_detail)
