@@ -1,11 +1,24 @@
 import requests
+import os
 import pandas as pd
 
+API_KEY = "cd380b7fda6a44909bff4645ec8b0448"
 
 def get_transaction_info(transaction_id):
+
+    input_addr_file = f"./transaction_folder/{transaction_id}_input_addr.csv"
+    output_addr_file = f"./transaction_folder/{transaction_id}_output_addr.csv"
+    transaction_file = f"./transaction_folder/{transaction_id}.csv"
+
+    # Check if the file exists
+    if os.path.exists(transaction_file):
+        # If the file exists, load the data from it
+        df = pd.read_csv(transaction_file)
+        tx_detail = df.to_dict(orient="records")[0]
+        return tx_detail
+
     response = requests.get(
-        "https://api.blockcypher.com/v1/btc/main/txs/"
-        + str(transaction_id)
+        f"https://api.blockcypher.com/v1/btc/main/txs/{transaction_id}?token={API_KEY}"
     )
     response_json = response.json()
 
@@ -25,9 +38,7 @@ def get_transaction_info(transaction_id):
 
     if next_io == True:
         response = requests.get(
-            "https://api.blockcypher.com/v1/btc/main/txs/"
-            + transaction_id
-            + str(max(no_of_inputs, no_of_outputs))
+            f"https://api.blockcypher.com/v1/btc/main/txs/{transaction_id}?token={API_KEY}&limit={max(no_of_inputs, no_of_outputs)}"
         )
         response_json = response.json()
 
@@ -116,8 +127,8 @@ def get_transaction_info(transaction_id):
         "input_address": input_dict["addresses"],
     }
 
-    # df = pd.DataFrame(tx_detail, index=[0])
-    # df.to_csv("./transaction_folder/" + transaction_id, index=False)
+    df = pd.DataFrame(tx_detail)
+    df.to_csv(transaction_file, index=False)
 
     return tx_detail
 
