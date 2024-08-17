@@ -62,5 +62,4 @@ def get_graph_details(tx_id, details_dict):
                 nodes += add_node(id, details_dict, other)
                 edges += add_edge(tx_id, id, details_dict)
 
-        
         return {'nodes': nodes, 'edges': edges}

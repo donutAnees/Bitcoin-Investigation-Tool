@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, session
 from flask import request
 from flask_cors import CORS
 
@@ -7,8 +7,8 @@ import get_graph_details
 import get_tx_details
 import get_mixer_nodes
 import prediction
+import secrets
 
-details_dict = {"nodes": [], "edges": []}
 
 app = Flask("__name__")
 CORS(app)
@@ -18,25 +18,28 @@ cors = CORS(app,resources={
     }
 })
 
+secret_key = secrets.token_hex(16)
+app.secret_key = secret_key
+
 
 @app.route("/transactionhash", methods=["GET"])
 def init():
     # If we get a new request, we clear everything we had 
-    details_dict = {"nodes": [], "edges": []}
+    session['details_dict'] = {"nodes": [], "edges": []}
     hash = request.args.get("hash")
     tx_detail = get_tx_details.get_transaction_info(hash)
-    details_dict["nodes"].append(tx_detail)
-    return details_dict
+    session['details_dict']["nodes"].append(tx_detail)
+    return session['details_dict']
 
 
 @app.route("/expand", methods=["GET"])
 def expand():
     node = request.args.get("id")
+    details_dict = session.get('details_dict', {"nodes": [], "edges": []})
     new_dict = get_graph_details.get_graph_details(node, details_dict)
-    for new_node in new_dict["nodes"]:
-        details_dict["nodes"].append(new_node)
-    for new_edge in new_dict["edges"]:
-        details_dict["edges"].append(new_edge)
+    details_dict["nodes"].extend(new_dict["nodes"])
+    details_dict["edges"].extend(new_dict["edges"])
+    session['details_dict'] = details_dict
     return new_dict
 
 
@@ -49,8 +52,8 @@ def getStatus():
 
 @app.route("/mixers", methods=["GET"])
 def getMixers():
-    get_mixer_nodes.getMixer(details_dict)
-    return details_dict
+    get_mixer_nodes.getMixer(session['details_dict'])
+    return session['details_dict']
 
 
 @app.route("/walletavail", methods=["GET"])

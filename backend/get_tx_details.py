@@ -127,7 +127,7 @@ def get_transaction_info(transaction_id):
         "input_address": input_dict["addresses"],
     }
 
-    df = pd.DataFrame(tx_detail)
+    df = pd.DataFrame([tx_detail])
     df.to_csv(transaction_file, index=False)
 
     return tx_detail
