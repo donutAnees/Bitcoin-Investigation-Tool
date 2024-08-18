@@ -6,8 +6,16 @@ This is a bitcoin investigation tool which provides the following tools
 - Online Wallet Search
 
 ## Project Overview
+<img width="1375" alt="Screenshot 2024-08-18 at 10 24 16 PM" src="https://github.com/user-attachments/assets/d4363b9c-60dd-433c-aae9-45d9443f70f2">
+
 ### Interactive Blockchain Transaction Visualizer 
 This tool models transactions as a graph, where each node represents a transaction. The edges have arrows indicating the source of the funds for each transaction. When you click on a node, the graph expands to display the subsequent transactions that occurred using those funds.
+
+
+https://github.com/user-attachments/assets/3944516d-6b50-40c5-8776-307bdfdffb2e
+
+
+
 
 ### Bitcoin PCAP Decoder
 To make a transaction, a Bitcoin node creates a transaction message and sends it to its connected peers. This message propagates through the entire P2P network, where each peer verifies it before a miner adds it to the blockchain. By tracking the first node that relays a new, unique transaction ID, we can potentially identify the source of that transaction, exploiting Bitcoin's gossip protocol. By connecting to all nodes in the network and monitoring their transaction relays, it's possible to de-anonymize the blockchain and reveal the true identities behind transactions. This tool helps to do this.
