@@ -2,6 +2,7 @@ from flask import Flask, session
 from flask import request
 from flask_cors import CORS
 
+import os
 import pandas as pd
 import get_graph_details
 import get_tx_details
@@ -24,6 +25,12 @@ app.secret_key = secret_key
 
 @app.route("/transactionhash", methods=["GET"])
 def init():
+    # Define the folder path
+    transaction_folder = "./transaction_folder"
+    # Check if the folder exists, and create it if it doesn't
+    if not os.path.exists(transaction_folder):
+        os.makedirs(transaction_folder)
+
     # If we get a new request, we clear everything we had 
     session['details_dict'] = {"nodes": [], "edges": []}
     hash = request.args.get("hash")

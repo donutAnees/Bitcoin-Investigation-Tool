@@ -17,7 +17,7 @@ export default function Transaction() {
   }, []);
 
   const prepareNetwork = (network, newData) => {
-    console.log(newData)
+    // console.log(newData)
     newData.nodes.forEach((element) => {
       network.body.data.nodes.update({
         id: element.id,

@@ -1,8 +1,11 @@
 import requests
 import os
 import pandas as pd
+from dotenv import load_dotenv
 
-API_KEY = "cd380b7fda6a44909bff4645ec8b0448"
+load_dotenv()
+
+API_KEY = os.getenv("API_KEY")
 
 def get_transaction_info(transaction_id):
 
@@ -10,7 +13,7 @@ def get_transaction_info(transaction_id):
     output_addr_file = f"./transaction_folder/{transaction_id}_output_addr.csv"
     transaction_file = f"./transaction_folder/{transaction_id}.csv"
 
-    # Check if the file exists
+    # Check if the file exissts
     if os.path.exists(transaction_file):
         # If the file exists, load the data from it
         df = pd.read_csv(transaction_file)

@@ -1,8 +1,0 @@
-{
-  "devDependencies": {
-    "tailwindcss": "^3.3.6"
-  },
-  "dependencies": {
-    "vis-network": "^9.1.9"
-  }
-}

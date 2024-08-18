@@ -19,7 +19,7 @@ export default function Wallet() {
     );
     const status = await response.json();
     setLegalStatus(status.status === "legal");
-    console.log(status);
+    // console.log(status);
     setSubmitted(true);
   };
 

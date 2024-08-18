@@ -12,8 +12,8 @@ const handleCheckWallet = async () => {
         const response = await fetch("http://127.0.0.1:5000/" + "walletavail?id=" + walletId)
         const {availability,website} = await response.json();
         
-        console.log('Wallet ID to Check:', walletId);
-        console.log('Wallet Found:', availability);
+        // console.log('Wallet ID to Check:', walletId);
+        // console.log('Wallet Found:', availability);
 
         if (availability) {
             setResult('Wallet found');

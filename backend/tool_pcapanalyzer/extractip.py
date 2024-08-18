@@ -42,7 +42,7 @@ IP = socket.gethostbyname(hostname)
 #     print("Error connecting to PostgreSQL database:", error)
 #     quit()
 
-input_directory = "../sample_capture"
+input_directory = "../capture"
 
 output_file_path = "./" + input_directory + "/output.csv"
 input_file_path = "./" + input_directory + "/input.csv"
